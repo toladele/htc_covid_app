@@ -39,3 +39,6 @@ app.*.symbols
 
 # Obfuscation related
 app.*.map.json
+android/app/src/main/AndroidManifest.xml
+ios/Runner/AppDelegate.swift
+lib/key_resource.dart
