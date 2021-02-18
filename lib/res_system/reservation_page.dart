@@ -7,32 +7,54 @@ import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_webservice/places.dart';
 
-import '../key_resource.dart';
+// import 'package:location/location.dart' as LocationManager;
+
+import '../config/key_resource.dart';
 
 class ReservationPage extends StatefulWidget {
+  ReservationPage({Key key}) : super(key: key);
+
   @override
   _ReservationPageState createState() => _ReservationPageState();
 }
 
-final homeScaffoldKey = GlobalKey<ScaffoldState>();
 final searchScaffoldKey = GlobalKey<ScaffoldState>();
+final homeScaffoldKey = GlobalKey<ScaffoldState>();
 const kGoogleApiKey = KeyResource.googleAPI;
 GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: kGoogleApiKey);
 
 class _ReservationPageState extends State<ReservationPage> {
   Position position;
   Mode _mode = Mode.overlay;
+  var selectedAddress = "";
+  var selectedLocationName = "";
+  var selectedWebsite = "";
+  var selectedPhoneNumber;
+  var processedResponse;
 
   void initState() {
     super.initState();
-    //_checkEmailVerification();
-    // _initializeLocation();
+    _determinePosition();
   }
 
-  // void _initializeLocation() async {
-  //   position = await Geolocator()
-  //       .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-  // }
+  void _determinePosition() async {
+    // gets all locations within 50km and calls process function to add to a list
+    position = await Geolocator.getCurrentPosition();
+    PlacesSearchResponse response = await _places.searchNearbyWithRadius(
+        new Location(position.latitude, position.longitude), 5000,
+        keyword: "health");
+    _processResponse(response);
+  }
+
+  void _processResponse(PlacesSearchResponse response) {
+    // filter out non-health responses
+    processedResponse = response.results
+        .where((element) => element.types.contains("health"))
+        .toList();
+    selectedAddress = "";
+    selectedLocationName = "";
+    selectedWebsite = "";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,10 +62,9 @@ class _ReservationPageState extends State<ReservationPage> {
         child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        _buildDropdownMenu(),
         RaisedButton(
           onPressed: _handlePressButton,
-          child: Text("Search places"),
+          child: Text("Book an Appointment"),
         ),
         RaisedButton(
           child: Text("Custom"),
@@ -55,108 +76,16 @@ class _ReservationPageState extends State<ReservationPage> {
     ));
   }
 
-  Widget _buildDropdownMenu() => DropdownButton(
-        value: _mode,
-        items: <DropdownMenuItem<Mode>>[
-          DropdownMenuItem<Mode>(
-            child: Text("Overlay"),
-            value: Mode.overlay,
-          ),
-          DropdownMenuItem<Mode>(
-            child: Text("Fullscreen"),
-            value: Mode.fullscreen,
-          ),
-        ],
-        onChanged: (m) {
-          setState(() {
-            _mode = m;
-          });
-        },
-      );
-
   void onError(PlacesAutocompleteResponse response) {
-    homeScaffoldKey.currentState.showSnackBar(
-      SnackBar(content: Text(response.errorMessage)),
-    );
+    // catch errors
+    print(response.errorMessage);
   }
 
   Future<void> _handlePressButton() async {
-    // show input autocomplete with selected mode
-    // then get the Prediction selected
-    Prediction p = await PlacesAutocomplete.show(
-      context: context,
-      apiKey: kGoogleApiKey,
-      onError: onError,
-      mode: _mode,
-      language: "fr",
-      components: [Component(Component.country, "fr")],
-    );
+    // handle button click
 
-    displayPrediction(p, homeScaffoldKey.currentState);
-  }
-}
-
-Future<Null> displayPrediction(Prediction p, ScaffoldState scaffold) async {
-  if (p != null) {
-    // get detail (lat/lng)
-    PlacesDetailsResponse detail = await _places.getDetailsByPlaceId(p.placeId);
-    final lat = detail.result.geometry.location.lat;
-    final lng = detail.result.geometry.location.lng;
-
-    scaffold.showSnackBar(
-      SnackBar(content: Text("${p.description} - $lat/$lng")),
-    );
-  }
-}
-
-// custom scaffold that handle search
-// basically your widget need to extends [GooglePlacesAutocompleteWidget]
-// and your state [GooglePlacesAutocompleteState]
-class CustomSearchScaffold extends PlacesAutocompleteWidget {
-  CustomSearchScaffold()
-      : super(
-          apiKey: kGoogleApiKey,
-          sessionToken: Uuid().generateV4(),
-          language: "en",
-          components: [Component(Component.country, "uk")],
-        );
-
-  @override
-  _CustomSearchScaffoldState createState() => _CustomSearchScaffoldState();
-}
-
-class _CustomSearchScaffoldState extends PlacesAutocompleteState {
-  @override
-  Widget build(BuildContext context) {
-    final appBar = AppBar(title: AppBarPlacesAutoCompleteTextField());
-    final body = PlacesAutocompleteResult(
-      onTap: (p) {
-        displayPrediction(p, searchScaffoldKey.currentState);
-      },
-      logo: Row(
-        children: [FlutterLogo()],
-        mainAxisAlignment: MainAxisAlignment.center,
-      ),
-    );
-    return Scaffold(key: searchScaffoldKey, appBar: appBar, body: body);
-  }
-
-  @override
-  void onResponseError(PlacesAutocompleteResponse response) {
-    super.onResponseError(response);
-    searchScaffoldKey.currentState.showSnackBar(
-      SnackBar(content: Text(response.errorMessage)),
-    );
-  }
-
-  @override
-  void onResponse(PlacesAutocompleteResponse response) {
-    super.onResponse(response);
-    if (response != null && response.predictions.isNotEmpty) {
-      searchScaffoldKey.currentState.showSnackBar(
-        SnackBar(content: Text("Got answer")),
-      );
-    }
+    PlacesSearchResponse response = await _places.searchNearbyWithRadius(
+        new Location(position.latitude, position.longitude), 500);
   }
 }
 

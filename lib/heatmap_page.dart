@@ -26,8 +26,8 @@ class _HeatMapPageState extends State<HeatMapPage> {
   }
 
   void _initializeMap() async {
-    position = await Geolocator()
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
   }
 
   @override

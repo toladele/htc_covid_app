@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:htc_covid_app/heatmap_page.dart';
 import 'package:htc_covid_app/res_system/reservation_page.dart';
 
-import 'color_resource.dart';
+import 'config/color_resource.dart';
 import 'config/size_config.dart';
 
 class HomePage extends StatefulWidget {
@@ -33,24 +33,27 @@ class _HomePageState extends State<HomePage> {
 
   void _getCovidStats() async {
     // get the latest update for Ontario
-    var covid = Covid19Client();
-    var provinceSummary =
-        await covid.getLive(country: "Canada", status: "confirmed");
-    var countrySummary = await covid.getByCountry(country: "Canada");
-    var globalSummary = await covid.getWorldTotal();
-    var globalContents = globalSummary.totalConfirmed;
-    var countryContents =
-        countrySummary.lastWhere((element) => element.country == "Canada");
-    var provinceContents =
-        provinceSummary.lastWhere((element) => element.province == "Ontario");
-    setState(() {
-      provinceCases = provinceContents.confirmed;
-      countryCases = countryContents.confirmed;
-      globalCases = globalContents;
-      cityCases = 847;
-    });
-    var reversedContents = "hey";
-    covid.close();
+    try {
+      var covid = Covid19Client();
+      var provinceSummary =
+          await covid.getLive(country: "Canada", status: "confirmed");
+      var countrySummary = await covid.getByCountry(country: "Canada");
+      var globalSummary = await covid.getWorldTotal();
+      var globalContents = globalSummary.totalConfirmed;
+      var countryContents =
+          countrySummary.lastWhere((element) => element.country == "Canada");
+      var provinceContents =
+          provinceSummary.lastWhere((element) => element.province == "Ontario");
+      setState(() {
+        provinceCases = provinceContents.confirmed;
+        countryCases = countryContents.confirmed;
+        globalCases = globalContents;
+        cityCases = 847;
+      });
+      covid.close();
+    } catch (e) {
+      _getCovidStats();
+    }
   }
 
   @override
