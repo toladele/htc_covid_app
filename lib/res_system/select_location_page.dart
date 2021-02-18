@@ -18,6 +18,9 @@ class _SelectLocationPageState extends State<SelectLocationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: ColorResource.accentColor, //change your color here
+        ),
         title: Text(
           'Select a Vaccination Site',
           style: TextStyle(color: ColorResource.accentColor),

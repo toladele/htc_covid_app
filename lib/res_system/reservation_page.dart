@@ -5,6 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_webservice/places.dart';
+import 'package:htc_covid_app/config/color_resource.dart';
+import 'package:htc_covid_app/config/size_config.dart';
 import 'package:htc_covid_app/res_system/select_location_page.dart';
 
 import '../config/key_resource.dart';
@@ -55,22 +57,38 @@ class _ReservationPageState extends State<ReservationPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return Container(
+        padding: EdgeInsets.fromLTRB(
+          SizeConfig().getBlockSizeHorizontal(3),
+          SizeConfig().getBlockSizeVertical(10),
+          SizeConfig().getBlockSizeHorizontal(1),
+          SizeConfig().getBlockSizeVertical(00),
+        ),
         child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        RaisedButton(
-          onPressed: _handlePressButton,
-          child: Text("Book an Appointment"),
-        ),
-        RaisedButton(
-          child: Text("Custom"),
-          onPressed: () {
-            Navigator.of(context).pushNamed("/search");
-          },
-        ),
-      ],
-    ));
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            getVaccinatedLogo(),
+            Text(
+              'View or schedule your vaccination:'.toUpperCase(),
+              // maxLines: 3,
+              style: TextStyle(
+                  color: ColorResource.accentColor,
+                  fontSize: SizeConfig().getBlockSizeHorizontal(12),
+                  fontWeight: FontWeight.bold),
+            ),
+            RaisedButton(
+              onPressed: _handlePressButton,
+              child: Text("Book an Appointment"),
+            ),
+            RaisedButton(
+              child: Text("Custom"),
+              onPressed: () {
+                Navigator.of(context).pushNamed("/search");
+              },
+            ),
+          ],
+        ));
   }
 
   void onError(PlacesAutocompleteResponse response) {
@@ -90,6 +108,42 @@ class _ReservationPageState extends State<ReservationPage> {
       MaterialPageRoute(
           builder: (context) => SelectLocationPage(
               locationList: processedResponse, position: position)),
+    );
+  }
+
+  Widget getVaccinatedLogo() {
+    return Container(
+      padding: EdgeInsets.fromLTRB(
+        0,
+        0,
+        0,
+        SizeConfig().getBlockSizeHorizontal(60),
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: EdgeInsets.fromLTRB(
+              0,
+              0,
+              SizeConfig().getBlockSizeHorizontal(2),
+              0,
+            ),
+            child: Icon(
+              Icons.check_circle,
+              size: SizeConfig().getBlockSizeHorizontal(8),
+              color: ColorResource.accentFont,
+            ),
+          ),
+          Text(
+            'Get Vaccinated!'.toUpperCase(),
+            style: TextStyle(
+              fontSize: SizeConfig().getBlockSizeHorizontal(6.0),
+              color: ColorResource.accentFont,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

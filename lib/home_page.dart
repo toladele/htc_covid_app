@@ -62,17 +62,10 @@ class _HomePageState extends State<HomePage> {
     return Container(
       decoration: BoxDecoration(
           image: DecorationImage(
-              image: AssetImage("assets/bg.png"), fit: BoxFit.cover)),
+              image: AssetImage("assets/bg2.png"), fit: BoxFit.cover)),
       child: Scaffold(
         backgroundColor: scaffoldBackgroundColor,
         body: getWidgetList().elementAt(_selectedIndex),
-        floatingActionButton: _selectedIndex == 2
-            ? FloatingActionButton(
-                onPressed: () {},
-                tooltip: 'Increment',
-                child: Icon(Icons.add),
-              )
-            : Container(), // This trailing comma makes auto-formatting nicer for build methods.
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           showSelectedLabels: false,
@@ -105,9 +98,13 @@ class _HomePageState extends State<HomePage> {
 
   void _onItemTapped(int index) {
     setState(() {
-      if (index == 0) scaffoldBackgroundColor = Colors.transparent;
+      if (index == 0) {
+        scaffoldBackgroundColor = Colors.transparent;
+      }
       if (index == 1) scaffoldBackgroundColor = ColorResource.mainColor;
-      if (index == 2) scaffoldBackgroundColor = ColorResource.mainColor;
+      if (index == 2) {
+        scaffoldBackgroundColor = Colors.transparent;
+      }
       _selectedIndex = index;
     });
   }
@@ -255,7 +252,7 @@ class _HomePageState extends State<HomePage> {
           Text(
             'Canada',
             style: TextStyle(
-              fontSize: SizeConfig().getBlockSizeHorizontal(5.0),
+              fontSize: SizeConfig().getBlockSizeHorizontal(6.0),
               color: ColorResource.accentFont,
               fontWeight: FontWeight.bold,
             ),
