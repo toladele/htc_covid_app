@@ -3,11 +3,9 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_webservice/places.dart';
-
-// import 'package:location/location.dart' as LocationManager;
+import 'package:htc_covid_app/res_system/select_location_page.dart';
 
 import '../config/key_resource.dart';
 
@@ -25,7 +23,6 @@ GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: kGoogleApiKey);
 
 class _ReservationPageState extends State<ReservationPage> {
   Position position;
-  Mode _mode = Mode.overlay;
   var selectedAddress = "";
   var selectedLocationName = "";
   var selectedWebsite = "";
@@ -83,9 +80,17 @@ class _ReservationPageState extends State<ReservationPage> {
 
   Future<void> _handlePressButton() async {
     // handle button click
+    _navigateToSelectLocationPage();
+  }
 
-    PlacesSearchResponse response = await _places.searchNearbyWithRadius(
-        new Location(position.latitude, position.longitude), 500);
+  _navigateToSelectLocationPage() async {
+    Navigator.push(
+      context,
+      // Create the SelectionScreen in the next step.
+      MaterialPageRoute(
+          builder: (context) => SelectLocationPage(
+              locationList: processedResponse, position: position)),
+    );
   }
 }
 
