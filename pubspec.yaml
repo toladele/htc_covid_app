@@ -33,11 +33,19 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
+  covid19: ^0.1.0
+  firebase_auth: ^0.14.0+5
+  firebase_database: ^3.0.7
+  cloud_firestore: ^0.12.9+4
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter.
 flutter:
+
+  assets:
+    - assets/
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
