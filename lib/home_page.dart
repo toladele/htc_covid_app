@@ -31,9 +31,6 @@ class _HomePageState extends State<HomePage> {
   void _getCovidStats() async {
     // get the latest update for Ontario
     var covid = Covid19Client();
-    // var citySummary = await covid.getByCountryTotal(country: "Canada");
-    // var cityContents =
-    //     citySummary.lastWhere((element) => element.city == "London");
     var provinceSummary =
         await covid.getLive(country: "Canada", status: "confirmed");
     var countrySummary = await covid.getByCountry(country: "Canada");
@@ -47,6 +44,7 @@ class _HomePageState extends State<HomePage> {
       provinceCases = provinceContents.confirmed;
       countryCases = countryContents.confirmed;
       globalCases = globalContents;
+      cityCases = 847;
     });
     var reversedContents = "hey";
     covid.close();
@@ -90,7 +88,7 @@ class _HomePageState extends State<HomePage> {
                   SizeConfig().getBlockSizeVertical(5),
                 ),
                 child: Text(
-                  'London, ON'.toUpperCase(),
+                  'Mississauga, ON'.toUpperCase(),
                   style: TextStyle(
                       color: ColorResource.accentColor,
                       fontSize: SizeConfig().getBlockSizeHorizontal(10),
@@ -254,7 +252,7 @@ class _HomePageState extends State<HomePage> {
         SizeConfig().getBlockSizeVertical(2),
       ),
       child: Text(
-        '1,183'.toUpperCase(),
+        cityCases.toString().toUpperCase(),
         style: TextStyle(
             color: ColorResource.accentFont,
             fontSize: SizeConfig().getBlockSizeHorizontal(13),
