@@ -1,6 +1,8 @@
 import 'package:covid19/covid19.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:htc_covid_app/heatmap_page.dart';
+import 'package:htc_covid_app/res_system/reservation_page.dart';
 
 import 'color_resource.dart';
 import 'config/size_config.dart';
@@ -20,6 +22,7 @@ class _HomePageState extends State<HomePage> {
   int cityCases = 0;
   int countryCases = 0;
   int provinceCases = 0;
+  Color scaffoldBackgroundColor = Colors.transparent;
 
   @override
   void initState() {
@@ -58,112 +61,8 @@ class _HomePageState extends State<HomePage> {
           image: DecorationImage(
               image: AssetImage("assets/bg.png"), fit: BoxFit.cover)),
       child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Container(
-          padding: EdgeInsets.fromLTRB(
-            SizeConfig().getBlockSizeHorizontal(3),
-            SizeConfig().getBlockSizeVertical(10),
-            SizeConfig().getBlockSizeHorizontal(1),
-            SizeConfig().getBlockSizeVertical(00),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              getCanadaLogo(),
-              getNumCases(),
-              Text(
-                'New Confirmed Cases'.toUpperCase(),
-                maxLines: 3,
-                style: TextStyle(
-                    color: ColorResource.accentColor,
-                    fontSize: SizeConfig().getBlockSizeHorizontal(13),
-                    fontWeight: FontWeight.bold),
-              ),
-              Container(
-                padding: EdgeInsets.fromLTRB(
-                  SizeConfig().getBlockSizeHorizontal(0),
-                  SizeConfig().getBlockSizeVertical(0),
-                  SizeConfig().getBlockSizeHorizontal(0),
-                  SizeConfig().getBlockSizeVertical(5),
-                ),
-                child: Text(
-                  'Mississauga, ON'.toUpperCase(),
-                  style: TextStyle(
-                      color: ColorResource.accentColor,
-                      fontSize: SizeConfig().getBlockSizeHorizontal(10),
-                      fontWeight: FontWeight.normal),
-                ),
-              ),
-              Row(
-                children: [
-                  Text(
-                    'Province-wide: ',
-                    style: TextStyle(
-                      fontSize: SizeConfig().getBlockSizeHorizontal(5.0),
-                      color: ColorResource.accentColor,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    provinceCases.toString().replaceAllMapped(
-                        new RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-                        (Match m) => '${m[1]},'),
-                    style: TextStyle(
-                      fontSize: SizeConfig().getBlockSizeHorizontal(5.0),
-                      color: ColorResource.accentColor,
-                      // fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Text(
-                    'Nationwide: ',
-                    style: TextStyle(
-                      fontSize: SizeConfig().getBlockSizeHorizontal(5.0),
-                      color: ColorResource.accentColor,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    countryCases.toString().replaceAllMapped(
-                        new RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-                        (Match m) => '${m[1]},'),
-                    style: TextStyle(
-                      fontSize: SizeConfig().getBlockSizeHorizontal(5.0),
-                      color: ColorResource.accentColor,
-                      // fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Text(
-                    'Global: ',
-                    style: TextStyle(
-                      fontSize: SizeConfig().getBlockSizeHorizontal(5.0),
-                      color: ColorResource.accentColor,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    globalCases.toString().replaceAllMapped(
-                        new RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-                        (Match m) => '${m[1]},'),
-                    style: TextStyle(
-                      fontSize: SizeConfig().getBlockSizeHorizontal(5.0),
-                      color: ColorResource.accentColor,
-                      // fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
+        backgroundColor: scaffoldBackgroundColor,
+        body: getWidgetList().elementAt(_selectedIndex),
         floatingActionButton: _selectedIndex == 2
             ? FloatingActionButton(
                 onPressed: () {},
@@ -203,8 +102,128 @@ class _HomePageState extends State<HomePage> {
 
   void _onItemTapped(int index) {
     setState(() {
+      if (index == 0) scaffoldBackgroundColor = Colors.transparent;
+      if (index == 1) scaffoldBackgroundColor = ColorResource.mainColor;
+      if (index == 2) scaffoldBackgroundColor = ColorResource.mainColor;
       _selectedIndex = index;
     });
+  }
+
+  List<Widget> getWidgetList() {
+    List<Widget> _widgetOptions = <Widget>[
+      buildHomePage(),
+      new HeatMapPage(),
+      new ReservationPage(),
+    ];
+    return _widgetOptions;
+  }
+
+  Widget buildHomePage() {
+    return Container(
+      padding: EdgeInsets.fromLTRB(
+        SizeConfig().getBlockSizeHorizontal(3),
+        SizeConfig().getBlockSizeVertical(10),
+        SizeConfig().getBlockSizeHorizontal(1),
+        SizeConfig().getBlockSizeVertical(00),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          getCanadaLogo(),
+          getNumCases(),
+          Text(
+            'New Confirmed Cases'.toUpperCase(),
+            maxLines: 3,
+            style: TextStyle(
+                color: ColorResource.accentColor,
+                fontSize: SizeConfig().getBlockSizeHorizontal(13),
+                fontWeight: FontWeight.bold),
+          ),
+          Container(
+            padding: EdgeInsets.fromLTRB(
+              SizeConfig().getBlockSizeHorizontal(0),
+              SizeConfig().getBlockSizeVertical(0),
+              SizeConfig().getBlockSizeHorizontal(0),
+              SizeConfig().getBlockSizeVertical(5),
+            ),
+            child: Text(
+              'Mississauga, ON'.toUpperCase(),
+              style: TextStyle(
+                  color: ColorResource.accentColor,
+                  fontSize: SizeConfig().getBlockSizeHorizontal(10),
+                  fontWeight: FontWeight.normal),
+            ),
+          ),
+          Row(
+            children: [
+              Text(
+                'Province-wide: ',
+                style: TextStyle(
+                  fontSize: SizeConfig().getBlockSizeHorizontal(5.0),
+                  color: ColorResource.accentColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                provinceCases.toString().replaceAllMapped(
+                    new RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+                    (Match m) => '${m[1]},'),
+                style: TextStyle(
+                  fontSize: SizeConfig().getBlockSizeHorizontal(5.0),
+                  color: ColorResource.accentColor,
+                  // fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Text(
+                'Nationwide: ',
+                style: TextStyle(
+                  fontSize: SizeConfig().getBlockSizeHorizontal(5.0),
+                  color: ColorResource.accentColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                countryCases.toString().replaceAllMapped(
+                    new RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+                    (Match m) => '${m[1]},'),
+                style: TextStyle(
+                  fontSize: SizeConfig().getBlockSizeHorizontal(5.0),
+                  color: ColorResource.accentColor,
+                  // fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Text(
+                'Global: ',
+                style: TextStyle(
+                  fontSize: SizeConfig().getBlockSizeHorizontal(5.0),
+                  color: ColorResource.accentColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                globalCases.toString().replaceAllMapped(
+                    new RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+                    (Match m) => '${m[1]},'),
+                style: TextStyle(
+                  fontSize: SizeConfig().getBlockSizeHorizontal(5.0),
+                  color: ColorResource.accentColor,
+                  // fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
   Widget getCanadaLogo() {

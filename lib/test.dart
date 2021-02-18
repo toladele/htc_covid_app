@@ -1,58 +1,82 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_webservice/places.dart';
 
-import '../key_resource.dart';
+const kGoogleApiKey = "API_KEY";
 
-class ReservationPage extends StatefulWidget {
+// to get places detail (lat/lng)
+GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: kGoogleApiKey);
+
+main() {
+  runApp(RoutesWidget());
+}
+
+final customTheme = ThemeData(
+  primarySwatch: Colors.blue,
+  brightness: Brightness.dark,
+  accentColor: Colors.redAccent,
+  inputDecorationTheme: InputDecorationTheme(
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(4.00)),
+    ),
+    contentPadding: EdgeInsets.symmetric(
+      vertical: 12.50,
+      horizontal: 10.00,
+    ),
+  ),
+);
+
+class RoutesWidget extends StatelessWidget {
   @override
-  _ReservationPageState createState() => _ReservationPageState();
+  Widget build(BuildContext context) => MaterialApp(
+        title: "My App",
+        theme: customTheme,
+        routes: {
+          "/": (_) => MyApp(),
+          "/search": (_) => CustomSearchScaffold(),
+        },
+      );
+}
+
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
 }
 
 final homeScaffoldKey = GlobalKey<ScaffoldState>();
 final searchScaffoldKey = GlobalKey<ScaffoldState>();
-const kGoogleApiKey = KeyResource.googleAPI;
-GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: kGoogleApiKey);
 
-class _ReservationPageState extends State<ReservationPage> {
-  Position position;
+class _MyAppState extends State<MyApp> {
   Mode _mode = Mode.overlay;
-
-  void initState() {
-    super.initState();
-    //_checkEmailVerification();
-    // _initializeLocation();
-  }
-
-  // void _initializeLocation() async {
-  //   position = await Geolocator()
-  //       .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-  // }
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-        child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        _buildDropdownMenu(),
-        RaisedButton(
-          onPressed: _handlePressButton,
-          child: Text("Search places"),
-        ),
-        RaisedButton(
-          child: Text("Custom"),
-          onPressed: () {
-            Navigator.of(context).pushNamed("/search");
-          },
-        ),
-      ],
-    ));
+    return Scaffold(
+      key: homeScaffoldKey,
+      appBar: AppBar(
+        title: Text("My App"),
+      ),
+      body: Center(
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          _buildDropdownMenu(),
+          RaisedButton(
+            onPressed: _handlePressButton,
+            child: Text("Search places"),
+          ),
+          RaisedButton(
+            child: Text("Custom"),
+            onPressed: () {
+              Navigator.of(context).pushNamed("/search");
+            },
+          ),
+        ],
+      )),
+    );
   }
 
   Widget _buildDropdownMenu() => DropdownButton(
