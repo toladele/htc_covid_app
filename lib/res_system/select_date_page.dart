@@ -20,17 +20,18 @@ class SelectDatePage extends StatefulWidget {
 
 class _SelectDatePageState extends State<SelectDatePage> {
   List<String> randomDates = [""];
+  var selectedDate;
 
   @override
   void initState() {
     super.initState();
     randomDates = getRandomDate();
+    selectedDate = randomDates[0];
   }
 
   @override
   Widget build(BuildContext context) {
     List<dynamic> locationData = widget.locationData;
-    var selectedDate = randomDates[0];
     return Scaffold(
         appBar: AppBar(
           iconTheme: IconThemeData(
@@ -107,7 +108,9 @@ class _SelectDatePageState extends State<SelectDatePage> {
                 child: RaisedButton(
                   color: ColorResource.mainColor,
                   onPressed: () {
-                    locationData.add(selectedDate);
+                    setState(() {
+                      locationData.add(selectedDate);
+                    });
                     _handlePressButton(locationData);
                   },
                   child: Text(
