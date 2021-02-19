@@ -122,7 +122,7 @@ class _HomePageState extends State<HomePage> {
     return Container(
       padding: EdgeInsets.fromLTRB(
         SizeConfig().getBlockSizeHorizontal(3),
-        SizeConfig().getBlockSizeVertical(10),
+        SizeConfig().getBlockSizeVertical(6),
         SizeConfig().getBlockSizeHorizontal(1),
         SizeConfig().getBlockSizeVertical(00),
       ),
