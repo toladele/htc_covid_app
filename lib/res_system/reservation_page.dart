@@ -8,6 +8,7 @@ import 'package:google_maps_webservice/places.dart';
 import 'package:htc_covid_app/config/color_resource.dart';
 import 'package:htc_covid_app/config/size_config.dart';
 import 'package:htc_covid_app/res_system/select_location_page.dart';
+import 'package:htc_covid_app/res_system/view_appointment_page.dart';
 
 import '../config/key_resource.dart';
 
@@ -77,20 +78,28 @@ class _ReservationPageState extends State<ReservationPage> {
                   fontSize: SizeConfig().getBlockSizeHorizontal(12),
                   fontWeight: FontWeight.bold),
             ),
-            RaisedButton(
-              color: ColorResource.mainColor,
-              onPressed: _handlePressButton,
-              child: Text(
-                "Book Appointment".toUpperCase(),
-                style: TextStyle(
-                    fontSize: SizeConfig().getBlockSizeHorizontal(6),
-                    color: ColorResource.accentFont),
+            Container(
+              padding: EdgeInsets.fromLTRB(
+                SizeConfig().getBlockSizeHorizontal(0),
+                SizeConfig().getBlockSizeVertical(3),
+                SizeConfig().getBlockSizeHorizontal(0),
+                SizeConfig().getBlockSizeVertical(00),
               ),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18.0),
-                  side: BorderSide(
-                      color: ColorResource.accentFont,
-                      width: SizeConfig().getBlockSizeHorizontal(0.8))),
+              child: RaisedButton(
+                color: ColorResource.mainColor,
+                onPressed: _handlePressButton,
+                child: Text(
+                  "Book Appointment".toUpperCase(),
+                  style: TextStyle(
+                      fontSize: SizeConfig().getBlockSizeHorizontal(6),
+                      color: ColorResource.accentFont),
+                ),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0),
+                    side: BorderSide(
+                        color: ColorResource.accentFont,
+                        width: SizeConfig().getBlockSizeHorizontal(0.8))),
+              ),
             ),
             RaisedButton(
               color: ColorResource.mainColor,
@@ -106,9 +115,7 @@ class _ReservationPageState extends State<ReservationPage> {
                   side: BorderSide(
                       color: ColorResource.accentFont,
                       width: SizeConfig().getBlockSizeHorizontal(0.8))),
-              onPressed: () {
-                // Navigator.of(context).pushNamed("/search");
-              },
+              onPressed: () => _navigateToViewAppointmentPage(),
             ),
           ],
         ));
@@ -131,6 +138,14 @@ class _ReservationPageState extends State<ReservationPage> {
       MaterialPageRoute(
           builder: (context) => SelectLocationPage(
               locationList: processedResponse, position: position)),
+    );
+  }
+
+  _navigateToViewAppointmentPage() async {
+    Navigator.push(
+      context,
+      // Create the SelectionScreen in the next step.
+      MaterialPageRoute(builder: (context) => ViewAppointmentPage()),
     );
   }
 

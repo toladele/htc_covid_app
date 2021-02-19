@@ -39,6 +39,7 @@ dev_dependencies:
   flutter_google_places: ^0.2.6
   random_date: ^0.0.5
   group_button: ^1.1.0
+  path_provider: ^1.6.27
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -37,14 +37,18 @@ class _SelectLocationPageState extends State<SelectLocationPage> {
                 thickness: 2.0,
               );
             },
-            itemCount: widget.locationList.length,
+            itemCount: locationList.length,
             itemBuilder: (BuildContext context, int index) {
-              var lat = widget.locationList[index].geometry.location.lat;
-              var long = widget.locationList[index].geometry.location.lng;
+              var lat = locationList[index].geometry.location.lat;
+              var long = locationList[index].geometry.location.lng;
               var distance = calculateDistance(lat, long);
-              var name = widget.locationList[index].name;
-              var address = widget.locationList[index].vicinity;
-              List<dynamic> locationData = [name, distance, address];
+              var name = locationList[index].name;
+              var address = locationList[index].vicinity;
+              List<dynamic> locationData = [
+                name,
+                '${distance.toStringAsFixed(2)}km',
+                address
+              ];
               return new ListTile(
                 title: Text(name),
                 subtitle: Text(address),

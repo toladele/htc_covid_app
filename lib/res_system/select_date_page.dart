@@ -1,8 +1,9 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-// import 'package:group_button/group_button.dart';
+import 'package:htc_covid_app/config/cache_manager.dart';
 import 'package:htc_covid_app/config/color_resource.dart';
 import 'package:htc_covid_app/config/group-button/group_button.dart';
 import 'package:htc_covid_app/config/size_config.dart';
@@ -18,10 +19,18 @@ class SelectDatePage extends StatefulWidget {
 }
 
 class _SelectDatePageState extends State<SelectDatePage> {
+  List<String> randomDates = [""];
+
+  @override
+  void initState() {
+    super.initState();
+    randomDates = getRandomDate();
+  }
+
   @override
   Widget build(BuildContext context) {
-    var randomDates = getRandomDate();
     List<dynamic> locationData = widget.locationData;
+    var selectedDate = randomDates[0];
     return Scaffold(
         appBar: AppBar(
           iconTheme: IconThemeData(
@@ -77,8 +86,12 @@ class _SelectDatePageState extends State<SelectDatePage> {
                   isRadio: true,
                   spacing: 10,
                   direction: Axis.vertical,
-                  onSelected: (index, isSelected) =>
-                      print('$index button is selected'),
+                  onSelected: (index, isSelected) {
+                    setState(() {
+                      selectedDate = randomDates[index];
+                    });
+                    // print(locationData[3]);
+                  },
                   buttons: randomDates,
                 ),
               ),
@@ -93,7 +106,10 @@ class _SelectDatePageState extends State<SelectDatePage> {
                 ),
                 child: RaisedButton(
                   color: ColorResource.mainColor,
-                  onPressed: () {},
+                  onPressed: () {
+                    locationData.add(selectedDate);
+                    _handlePressButton(locationData);
+                  },
                   child: Text(
                     "Book Appointment".toUpperCase(),
                     style: TextStyle(
@@ -112,6 +128,11 @@ class _SelectDatePageState extends State<SelectDatePage> {
         ));
   }
 
+  Future<void> _handlePressButton(List<dynamic> data) async {
+    // handle button click
+    _createDataAndPop(data);
+  }
+
   List<String> getRandomDate() {
     Random random = new Random();
     List<String> dateOptions = [];
@@ -121,7 +142,6 @@ class _SelectDatePageState extends State<SelectDatePage> {
       if (randomDate.isBefore(DateTime.now()) == false) {
         String dateSlug =
             "${getMonth(randomDate.month)} ${randomDate.day}, ${randomDate.year} — ${randomTime}:00";
-        print(dateSlug);
         dateOptions.add(dateSlug);
       }
     }
@@ -146,9 +166,17 @@ class _SelectDatePageState extends State<SelectDatePage> {
     return months[month - 1];
   }
 
-  // Future<String> get _localPath async {
-  //   final directory = await getApplicationDocumentsDirectory();
-  //
-  //   return directory.path;
-  // }
+  Future<File> _createDataAndPop(List data) async {
+    // concatenate all of the data in one string, separated by a line break
+    int i = 0;
+    var dataString = "";
+    while (i < data.length) {
+      data[i] = '${data[i]}\n';
+      dataString += data[i];
+      i++;
+    }
+    CacheManager().writeCache(dataString);
+    int count = 0;
+    Navigator.of(context).popUntil((_) => count++ >= 2);
+  }
 }
