@@ -30,12 +30,46 @@ class _SelectDatePageState extends State<SelectDatePage> {
           backgroundColor: ColorResource.mainColor,
           elevation: 5.0,
         ),
-        body: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
+        body: ListView(
+          // crossAxisAlignment: CrossAxisAlignment.center,
+          // mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: EdgeInsets.fromLTRB(
+                SizeConfig().getBlockSizeHorizontal(0),
+                SizeConfig().getBlockSizeVertical(6),
+                SizeConfig().getBlockSizeHorizontal(0),
+                SizeConfig().getBlockSizeVertical(0),
+              ),
+              child: Center(
+                  child: Text(
+                widget.locationData[0],
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: SizeConfig().getBlockSizeHorizontal(6),
+                  color: ColorResource.accentColor,
+                ),
+              )),
+            ),
+            Container(
+              padding: EdgeInsets.fromLTRB(
+                SizeConfig().getBlockSizeHorizontal(0),
+                SizeConfig().getBlockSizeVertical(0),
+                SizeConfig().getBlockSizeHorizontal(0),
+                SizeConfig().getBlockSizeVertical(5),
+              ),
+              child: Center(
+                  child: Text(
+                widget.locationData[2],
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: SizeConfig().getBlockSizeHorizontal(4),
+                  color: ColorResource.accentColor,
+                ),
+              )),
+            ),
+            Center(
+              child: Container(
                 child: GroupButton(
                   selectedColor: ColorResource.accentFont,
                   isRadio: true,
@@ -46,7 +80,9 @@ class _SelectDatePageState extends State<SelectDatePage> {
                   buttons: randomDates,
                 ),
               ),
-              Container(
+            ),
+            Center(
+              child: Container(
                 padding: EdgeInsets.fromLTRB(
                   SizeConfig().getBlockSizeHorizontal(0),
                   SizeConfig().getBlockSizeVertical(4),
@@ -69,8 +105,8 @@ class _SelectDatePageState extends State<SelectDatePage> {
                           width: SizeConfig().getBlockSizeHorizontal(0.8))),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ));
   }
 
