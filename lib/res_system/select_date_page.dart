@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // import 'package:group_button/group_button.dart';
@@ -19,6 +21,7 @@ class _SelectDatePageState extends State<SelectDatePage> {
   @override
   Widget build(BuildContext context) {
     var randomDates = getRandomDate();
+    List<dynamic> locationData = widget.locationData;
     return Scaffold(
         appBar: AppBar(
           iconTheme: IconThemeData(
@@ -110,12 +113,14 @@ class _SelectDatePageState extends State<SelectDatePage> {
   }
 
   List<String> getRandomDate() {
+    Random random = new Random();
     List<String> dateOptions = [];
     while (dateOptions.length < 5) {
+      int randomTime = random.nextInt(18) + 08;
       var randomDate = RandomDate.withRange(2021, 2022).random();
       if (randomDate.isBefore(DateTime.now()) == false) {
         String dateSlug =
-            "${getMonth(randomDate.month)} ${randomDate.day}, ${randomDate.year}";
+            "${getMonth(randomDate.month)} ${randomDate.day}, ${randomDate.year} - ${randomTime}:00";
         print(dateSlug);
         dateOptions.add(dateSlug);
       }
@@ -140,4 +145,10 @@ class _SelectDatePageState extends State<SelectDatePage> {
     ];
     return months[month - 1];
   }
+
+  // Future<String> get _localPath async {
+  //   final directory = await getApplicationDocumentsDirectory();
+  //
+  //   return directory.path;
+  // }
 }

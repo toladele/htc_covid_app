@@ -1,9 +1,10 @@
 library group_button;
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'src/blocs/group_button_bloc.dart';
 import 'src/group_button_body.dart';
-import 'package:provider/provider.dart';
 
 class GroupButton extends StatelessWidget {
   /// [String] list that will be displayed on buttons in the [GroupButton]
@@ -115,8 +116,10 @@ class GroupButton extends StatelessWidget {
     )
   ];
 
-  static const _defaultSelectedTextStyle =
-      TextStyle(fontSize: 14, color: Colors.white);
+  static const _defaultSelectedTextStyle = TextStyle(
+    fontSize: 14,
+    color: Colors.white,
+  );
   static const _defaultUnselectedTextStyle =
       TextStyle(fontSize: 14, color: Colors.black);
 

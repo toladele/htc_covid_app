@@ -44,6 +44,7 @@ class GroupCustomButton extends StatelessWidget {
         color: isSelected ? selectedColor : unselectedColor,
         child: Text(
           text,
+          textAlign: TextAlign.center,
           style: isSelected ? selectedTextStyle : unselectedTextStyle,
         ),
         onPressed: onPressed,
