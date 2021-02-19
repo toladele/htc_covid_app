@@ -126,9 +126,10 @@ class _HomePageState extends State<HomePage> {
         SizeConfig().getBlockSizeHorizontal(1),
         SizeConfig().getBlockSizeVertical(00),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
+      child: ListView(
+        shrinkWrap: true,
+        // crossAxisAlignment: CrossAxisAlignment.start,
+        // mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           getCanadaLogo(),
           getNumCases(),
