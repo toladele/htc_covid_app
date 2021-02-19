@@ -12,8 +12,8 @@ class HeatMapPage extends StatefulWidget {
 
 class _HeatMapPageState extends State<HeatMapPage> {
   Completer<GoogleMapController> _controller = Completer();
-  static const LatLng _center = const LatLng(45.521563, -122.677433);
   Position position;
+  LatLng _center = new LatLng(43.549384, -79.662611);
 
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
@@ -26,17 +26,20 @@ class _HeatMapPageState extends State<HeatMapPage> {
   }
 
   void _initializeMap() async {
-    position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
+    position = await Geolocator.getCurrentPosition();
+    setState(() {
+      _center = LatLng(position.latitude, position.longitude);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return GoogleMap(
       onMapCreated: _onMapCreated,
+      myLocationEnabled: true,
       initialCameraPosition: CameraPosition(
         target: _center,
-        zoom: 11.0,
+        zoom: 13.0,
       ),
     );
   }
