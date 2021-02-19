@@ -48,9 +48,9 @@ class _ViewAppointmentPageState extends State<ViewAppointmentPage> {
         body: Container(
           alignment: Alignment.topCenter,
           padding: EdgeInsets.fromLTRB(
-            SizeConfig().getBlockSizeHorizontal(0),
+            SizeConfig().getBlockSizeHorizontal(3),
             SizeConfig().getBlockSizeVertical(10),
-            SizeConfig().getBlockSizeHorizontal(0),
+            SizeConfig().getBlockSizeHorizontal(3),
             SizeConfig().getBlockSizeVertical(0),
           ),
           child: ListView(
