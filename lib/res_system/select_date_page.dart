@@ -120,7 +120,7 @@ class _SelectDatePageState extends State<SelectDatePage> {
       var randomDate = RandomDate.withRange(2021, 2022).random();
       if (randomDate.isBefore(DateTime.now()) == false) {
         String dateSlug =
-            "${getMonth(randomDate.month)} ${randomDate.day}, ${randomDate.year} - ${randomTime}:00";
+            "${getMonth(randomDate.month)} ${randomDate.day}, ${randomDate.year} — ${randomTime}:00";
         print(dateSlug);
         dateOptions.add(dateSlug);
       }
