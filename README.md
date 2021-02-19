@@ -14,3 +14,5 @@ To run on an emulator, open the Flutter project in Android Studio or XCode and a
 * htc_covid_app/ios/Runner/AppDelegate.swift
 * htc_covid_app/android/app/src/main/AndroidManifest.xml
 * htc_covid_app/lib/config/key_resource.dart
+
+The application will not run properly without the Google API keys.
