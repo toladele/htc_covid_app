@@ -18,4 +18,4 @@ To run on an emulator, open the Flutter project in Android Studio or XCode and a
 The application will not run properly without the Google API keys.
 
 ## Demo
-[Demo](/CovidwatchDeck/covidwatch-demo.gif)
+<img src="/CovidwatchDeck/covidwatch-demo.gif">
