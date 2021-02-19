@@ -31,8 +31,6 @@ class _SelectDatePageState extends State<SelectDatePage> {
           elevation: 5.0,
         ),
         body: ListView(
-          // crossAxisAlignment: CrossAxisAlignment.center,
-          // mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
               padding: EdgeInsets.fromLTRB(
