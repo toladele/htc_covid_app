@@ -78,26 +78,36 @@ class _ReservationPageState extends State<ReservationPage> {
                   fontWeight: FontWeight.bold),
             ),
             RaisedButton(
-              color: ColorResource.accentFont.withOpacity(0.7),
+              color: ColorResource.mainColor,
               onPressed: _handlePressButton,
               child: Text(
                 "Book Appointment".toUpperCase(),
                 style: TextStyle(
                     fontSize: SizeConfig().getBlockSizeHorizontal(6),
-                    color: ColorResource.mainColor),
+                    color: ColorResource.accentFont),
               ),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18.0),
+                  side: BorderSide(
+                      color: ColorResource.accentFont,
+                      width: SizeConfig().getBlockSizeHorizontal(0.8))),
             ),
             RaisedButton(
-              color: ColorResource.accentFont.withOpacity(0.7),
+              color: ColorResource.mainColor,
               child: Text(
                 "View Appointment".toUpperCase(),
                 style: TextStyle(
                   fontSize: SizeConfig().getBlockSizeHorizontal(6),
-                  color: ColorResource.mainColor,
+                  color: ColorResource.accentFont,
                 ),
               ),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18.0),
+                  side: BorderSide(
+                      color: ColorResource.accentFont,
+                      width: SizeConfig().getBlockSizeHorizontal(0.8))),
               onPressed: () {
-                Navigator.of(context).pushNamed("/search");
+                // Navigator.of(context).pushNamed("/search");
               },
             ),
           ],

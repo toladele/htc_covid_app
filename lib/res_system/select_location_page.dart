@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:htc_covid_app/config/color_resource.dart';
+import 'package:htc_covid_app/res_system/select_date_page.dart';
 
 class SelectLocationPage extends StatefulWidget {
   SelectLocationPage({this.locationList, this.position});
@@ -16,6 +17,7 @@ class SelectLocationPage extends StatefulWidget {
 class _SelectLocationPageState extends State<SelectLocationPage> {
   @override
   Widget build(BuildContext context) {
+    var locationList = widget.locationList == null ? [] : widget.locationList;
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -40,13 +42,17 @@ class _SelectLocationPageState extends State<SelectLocationPage> {
               var lat = widget.locationList[index].geometry.location.lat;
               var long = widget.locationList[index].geometry.location.lng;
               var distance = calculateDistance(lat, long);
+              var name = widget.locationList[index].name;
+              var address = widget.locationList[index].vicinity;
+              List<dynamic> locationData = [name, distance, address];
               return new ListTile(
-                title: Text(widget.locationList[index].name),
-                subtitle: Text(widget.locationList[index].vicinity),
+                title: Text(name),
+                subtitle: Text(address),
                 trailing: Text(
                   '${distance.toStringAsFixed(2)}km',
                   style: TextStyle(color: ColorResource.accentColor),
                 ),
+                onTap: () => _handlePressButton(locationData),
               );
             }),
       ),
@@ -57,5 +63,21 @@ class _SelectLocationPageState extends State<SelectLocationPage> {
     var distance = Geolocator.distanceBetween(widget.position.latitude,
         widget.position.longitude, givenLat, givenLong);
     return distance / 1000;
+  }
+
+  Future<void> _handlePressButton(List<dynamic> data) async {
+    // handle button click
+    _navigateToSelectDatePage(data);
+  }
+
+  _navigateToSelectDatePage(List<dynamic> data) async {
+    Navigator.push(
+      context,
+      // Create the SelectionScreen in the next step.
+      MaterialPageRoute(
+          builder: (context) => SelectDatePage(
+                locationData: data,
+              )),
+    );
   }
 }
