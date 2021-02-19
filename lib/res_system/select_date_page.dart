@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:group_button/group_button.dart';
+// import 'package:group_button/group_button.dart';
 import 'package:htc_covid_app/config/color_resource.dart';
+import 'package:htc_covid_app/config/group-button/group_button.dart';
 import 'package:htc_covid_app/config/size_config.dart';
 import 'package:random_date/random_date.dart';
 
