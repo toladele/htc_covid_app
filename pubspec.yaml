@@ -41,6 +41,7 @@ dev_dependencies:
   group_button: ^1.1.0
   path_provider: ^1.6.27
   google_maps_flutter_heatmap: ^0.1.1+2
+  geocoding: ^1.0.5
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -9,7 +9,7 @@ class ViewAppointmentPage extends StatefulWidget {
 }
 
 class _ViewAppointmentPageState extends State<ViewAppointmentPage> {
-  List<String> appointmentData = ["No appointment booked!", "", "", ""];
+  List<String> appointmentData;
 
   @override
   void initState() {
@@ -53,83 +53,114 @@ class _ViewAppointmentPageState extends State<ViewAppointmentPage> {
             SizeConfig().getBlockSizeHorizontal(3),
             SizeConfig().getBlockSizeVertical(0),
           ),
-          child: ListView(
-            shrinkWrap: true,
-            // mainAxisAlignment: MainAxisAlignment.start,
-            // crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                padding: EdgeInsets.fromLTRB(
-                  SizeConfig().getBlockSizeHorizontal(0),
-                  SizeConfig().getBlockSizeVertical(0),
-                  SizeConfig().getBlockSizeHorizontal(0),
-                  SizeConfig().getBlockSizeVertical(8),
-                ),
-                child: Text(
-                  'Your vaccination is scheduled for:',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: ColorResource.accentColor,
-                      fontSize: SizeConfig().getBlockSizeHorizontal(5),
-                      fontWeight: FontWeight.normal),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.fromLTRB(
-                  SizeConfig().getBlockSizeHorizontal(0),
-                  SizeConfig().getBlockSizeVertical(0),
-                  SizeConfig().getBlockSizeHorizontal(0),
-                  SizeConfig().getBlockSizeVertical(1),
-                ),
-                child: Text(
-                  appointmentData[0] != null
-                      ? appointmentData[0]
-                      : "No appointments booked!",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: ColorResource.accentColor,
-                      fontSize: SizeConfig().getBlockSizeHorizontal(8),
-                      fontWeight: FontWeight.w400),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.fromLTRB(
-                  SizeConfig().getBlockSizeHorizontal(0),
-                  SizeConfig().getBlockSizeVertical(0),
-                  SizeConfig().getBlockSizeHorizontal(0),
-                  SizeConfig().getBlockSizeVertical(8),
-                ),
-                child: Text(
-                  appointmentData[2] != null ? appointmentData[2] : "",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: ColorResource.accentColor,
-                      fontSize: SizeConfig().getBlockSizeHorizontal(5),
-                      fontWeight: FontWeight.w400),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.fromLTRB(
-                  SizeConfig().getBlockSizeHorizontal(0),
-                  SizeConfig().getBlockSizeVertical(0),
-                  SizeConfig().getBlockSizeHorizontal(0),
-                  SizeConfig().getBlockSizeVertical(1),
-                ),
-                child: Text(
-                  appointmentData[3] != null
-                      ? appointmentData[3].replaceFirst("—", "\n")
-                      : "",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: ColorResource.accentColor,
-                      fontSize: SizeConfig().getBlockSizeHorizontal(8),
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-            ],
-          ),
+          child:
+              appointmentData != null ? getHasApptReport() : getNoApptReport(),
         ),
       ),
+    );
+  }
+
+  Widget getNoApptReport() {
+    return ListView(
+      shrinkWrap: true,
+      // mainAxisAlignment: MainAxisAlignment.start,
+      // crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+          padding: EdgeInsets.fromLTRB(
+            SizeConfig().getBlockSizeHorizontal(0),
+            SizeConfig().getBlockSizeVertical(0),
+            SizeConfig().getBlockSizeHorizontal(0),
+            SizeConfig().getBlockSizeVertical(8),
+          ),
+          child: Text(
+            'Schedule an appointment today!',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: ColorResource.accentColor,
+                fontSize: SizeConfig().getBlockSizeHorizontal(5),
+                fontWeight: FontWeight.normal),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget getHasApptReport() {
+    return ListView(
+      shrinkWrap: true,
+      // mainAxisAlignment: MainAxisAlignment.start,
+      // crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+          padding: EdgeInsets.fromLTRB(
+            SizeConfig().getBlockSizeHorizontal(0),
+            SizeConfig().getBlockSizeVertical(0),
+            SizeConfig().getBlockSizeHorizontal(0),
+            SizeConfig().getBlockSizeVertical(8),
+          ),
+          child: Text(
+            'Your vaccination is scheduled for:',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: ColorResource.accentColor,
+                fontSize: SizeConfig().getBlockSizeHorizontal(5),
+                fontWeight: FontWeight.normal),
+          ),
+        ),
+        Container(
+          padding: EdgeInsets.fromLTRB(
+            SizeConfig().getBlockSizeHorizontal(0),
+            SizeConfig().getBlockSizeVertical(0),
+            SizeConfig().getBlockSizeHorizontal(0),
+            SizeConfig().getBlockSizeVertical(1),
+          ),
+          child: Text(
+            appointmentData[0] != null
+                ? appointmentData[0]
+                : "No appointments booked!",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: ColorResource.accentColor,
+                fontSize: SizeConfig().getBlockSizeHorizontal(8),
+                fontWeight: FontWeight.w400),
+          ),
+        ),
+        Container(
+          padding: EdgeInsets.fromLTRB(
+            SizeConfig().getBlockSizeHorizontal(0),
+            SizeConfig().getBlockSizeVertical(0),
+            SizeConfig().getBlockSizeHorizontal(0),
+            SizeConfig().getBlockSizeVertical(8),
+          ),
+          child: Text(
+            appointmentData?.elementAt(2) != null ? appointmentData[2] : "",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: ColorResource.accentColor,
+                fontSize: SizeConfig().getBlockSizeHorizontal(5),
+                fontWeight: FontWeight.w400),
+          ),
+        ),
+        Container(
+          padding: EdgeInsets.fromLTRB(
+            SizeConfig().getBlockSizeHorizontal(0),
+            SizeConfig().getBlockSizeVertical(0),
+            SizeConfig().getBlockSizeHorizontal(0),
+            SizeConfig().getBlockSizeVertical(1),
+          ),
+          child: Text(
+            appointmentData?.elementAt(3) != null
+                ? appointmentData[3].replaceFirst("—", "\n")
+                : "",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: ColorResource.accentColor,
+                fontSize: SizeConfig().getBlockSizeHorizontal(8),
+                fontWeight: FontWeight.bold),
+          ),
+        ),
+      ],
     );
   }
 

@@ -14,7 +14,6 @@ class HeatMapPage extends StatefulWidget {
 class _HeatMapPageState extends State<HeatMapPage> {
   Completer<GoogleMapController> _controller = Completer();
   Position position;
-  LatLng _center = LatLng(43.549384, -79.662611);
   final Set<Heatmap> _heatmaps = {};
   CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(43.549384, -79.662611),
@@ -33,9 +32,10 @@ class _HeatMapPageState extends State<HeatMapPage> {
   }
 
   void _initializeMap() async {
-    position = await Geolocator.getCurrentPosition();
+    position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.best);
     setState(() {
-      _center = LatLng(position.latitude, position.longitude);
+      _heatmapLocation = LatLng(position.latitude, position.longitude);
       CameraPosition(
         target: LatLng(position.latitude, position.longitude),
         zoom: 14.4746,
@@ -63,8 +63,9 @@ class _HeatMapPageState extends State<HeatMapPage> {
           radius: 50,
           visible: true,
           gradient: HeatmapGradient(
-              colors: <Color>[Colors.green, Colors.red],
-              startPoints: <double>[0.2, 0.8])));
+            colors: <Color>[Colors.red],
+            startPoints: <double>[1.0],
+          )));
     });
   }
 
@@ -72,9 +73,10 @@ class _HeatMapPageState extends State<HeatMapPage> {
   List<WeightedLatLng> _createPoints(LatLng location) {
     final List<WeightedLatLng> points = <WeightedLatLng>[];
     //Can create multiple points here
-    points.add(_createWeightedLatLng(location.latitude, location.longitude, 5));
+    points.add(_createWeightedLatLng(location.latitude, location.longitude, 1));
     points.add(
-        _createWeightedLatLng(location.latitude - 1, location.longitude, 5));
+        _createWeightedLatLng(location.latitude - 1, location.longitude, 1));
+
     return points;
   }
 
