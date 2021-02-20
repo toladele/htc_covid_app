@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'COVID Alert',
+        title: 'CovidWatch',
         theme: ThemeData(
           primarySwatch: Colors.blueGrey,
           primaryColor: Color(0xff143150),
@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
         home: new HomePage(
-          title: 'COVID CENTRAL',
+          title: 'CovidWatch',
         ));
   }
 }
