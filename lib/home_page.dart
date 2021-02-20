@@ -1,6 +1,8 @@
 import 'package:covid19/covid19.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:htc_covid_app/heatmap_page.dart';
 import 'package:htc_covid_app/res_system/reservation_page.dart';
 
@@ -22,7 +24,10 @@ class _HomePageState extends State<HomePage> {
   int cityCases = 0;
   int countryCases = 0;
   int provinceCases = 0;
+  var _currentCity = "";
+  var _currentProvince = "";
   Color scaffoldBackgroundColor = Colors.transparent;
+  Position position;
 
   @override
   void initState() {
@@ -33,12 +38,16 @@ class _HomePageState extends State<HomePage> {
 
   void _getCovidStats() async {
     // get the latest update for Ontario
+    position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.best);
     try {
       var covid = Covid19Client();
       var provinceSummary =
           await covid.getLive(country: "Canada", status: "confirmed");
       var countrySummary = await covid.getByCountry(country: "Canada");
       var globalSummary = await covid.getWorldTotal();
+      _getAddressFromLatLng();
+
       var globalContents = globalSummary.totalConfirmed;
       var countryContents =
           countrySummary.lastWhere((element) => element.country == "Canada");
@@ -149,7 +158,7 @@ class _HomePageState extends State<HomePage> {
               SizeConfig().getBlockSizeVertical(5),
             ),
             child: Text(
-              'Mississauga, ON'.toUpperCase(),
+              _currentCity.toUpperCase(),
               style: TextStyle(
                   color: ColorResource.accentColor,
                   fontSize: SizeConfig().getBlockSizeHorizontal(10),
@@ -279,5 +288,20 @@ class _HomePageState extends State<HomePage> {
             fontWeight: FontWeight.bold),
       ),
     );
+  }
+
+  _getAddressFromLatLng() async {
+    try {
+      List<Placemark> p =
+          await placemarkFromCoordinates(position.latitude, position.longitude);
+
+      Placemark place = p[0];
+      print(place.locality);
+      setState(() {
+        _currentCity = "${place.locality}, ${place.administrativeArea}";
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 }

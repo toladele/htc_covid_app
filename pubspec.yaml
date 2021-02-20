@@ -40,6 +40,7 @@ dev_dependencies:
   random_date: ^0.0.5
   group_button: ^1.1.0
   path_provider: ^1.6.27
+  geocoding: ^1.0.5
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
